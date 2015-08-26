@@ -73,9 +73,9 @@
 	
 	// Extendemos los ComboBox
 	var ComboBox = {
-		hola: function(){
-			return "hola";
-		},
+		currentData: (function(){
+			this.itemData(this.currentIndex);
+		}),
 		comboFillWithStaticTable: function (tablaEstatica) {
 			var combo = this;
 			for (var i = 0, size = theApp.staticTableItemCount(tablaEstatica); i < size; i++) {
