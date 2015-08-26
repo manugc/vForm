@@ -1,27 +1,60 @@
 (function (global, undefined) {
-    var $ = function (control) {
+	/* Helpers */
+	
+	// Alias de hasOwnProperty
+	function hasOwnProp(a, b) {
+        return Object.prototype.hasOwnProperty.call(a, b);
+    }
+	
+	// Extiende el objeto a con con el objecto b
+	function extend(a, b) {
+        for (var i in b) {
+            if (hasOwnProp(b, i)) {
+                a[i] = b[i];
+            }
+        }
+
+        if (hasOwnProp(b, 'toString')) {
+            a.toString = b.toString;
+        }
+
+        if (hasOwnProp(b, 'valueOf')) {
+            a.valueOf = b.valueOf;
+        }
+
+        return a;
+    }
+	/* Helpers */
+	
+    var $ = function (control) {		
         if (global === this) {
             return new $(control);
         }
 
-        // Si se ha pasado un nombre, asignamos el objecto
+        // Si se ha pasado un nombre, asignamos el widget
         if (control != undefined) {
-            $.control = theRoot.dataView().control(control);
-        }
-
-        $.frm = theRoot.dataView();
-        $.frmObj = theRoot.objectInfo();
-
-        // constructor code goes here
-        return this;
-    };
+            $.widget = theRoot.dataView().control(control);
+			switch(theMainWindow.widgetType($.widget)){
+				case VMainWindow.WTypeComboBox:
+					// Extendemos los ComboBox
+					extend($.widget, ComboBox);
+					break;
+			}
+			return $.widget;
+        }else{
+			// Si no se ha pasado nada, devolvemos el objeto principal
+			this.frm = theRoot.dataView();
+			this.frmObj = theRoot.objectInfo();
+			return this;
+		}
+    };	
 
     $.fn = $.prototype = {
-        control: function () {
-            return $.control
+        getWidget: function () {
+            return $.widget;
         },
         objecto: function () {
-            return $.frmObj.subObjectInfo(19, $.control.objectName);
+            return $.frmObj.subObjectInfo(19, $.widget.objectName);
         },
         getFocus: function () {
             var count = $.frm.controlCount();
@@ -35,25 +68,30 @@
                     }
                 } catch (e) {}
             }
-        },
-        comboFillWithStaticTable: function (tablaEstatica) {
-            var combo = $.control;
-            if (theMainWindow.widgetType(combo) === VMainWindow.WTypeComboBox) {
-                for (var i = 0, size = theApp.staticTableItemCount(tablaEstatica); i < size; i++) {
-                    icono = theApp.staticTableItemImage(tablaEstatica, i);
-                    texto = theApp.staticTableItemName(tablaEstatica, i);
-                    id = theApp.staticTableItemId(tablaEstatica, i);
-
-                    if (icono === null) {
-                        combo.addItem(texto, id);
-                    } else {
-                        combo.addItem(icono, texto, id);
-                    }
-                }
-            }
-            return this;
         }
     };
+	
+	// Extendemos los ComboBox
+	var ComboBox = {
+		hola: function(){
+			return "hola";
+		},
+		comboFillWithStaticTable: function (tablaEstatica) {
+			var combo = this;
+			for (var i = 0, size = theApp.staticTableItemCount(tablaEstatica); i < size; i++) {
+				var icono = theApp.staticTableItemImage(tablaEstatica, i);
+				var texto = theApp.staticTableItemName(tablaEstatica, i);
+				var id = theApp.staticTableItemId(tablaEstatica, i);
 
+				if (icono === null) {
+					combo.addItem(texto, id);
+				} else {
+					combo.addItem(icono, texto, id);
+				}
+			}
+            return this;
+		}
+	}
+		
     global.$ = $;
 })(this);
