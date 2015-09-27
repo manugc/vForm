@@ -1,5 +1,5 @@
 # vForm
-Librería javascript para hacer más fácil el manejo de controles en los formularios de Velneo
+Librería javascript para hacer más fácil el manejo de controles en los formularios de Velneo. Permite hacer chain, ya que las funciones añadidas devuelve en la medida de los posible el propio objeto.
 
 Uso:
 #### Obtener el widget del control
@@ -26,11 +26,19 @@ Cuando lanzamos por una ejemplo una acción desde un menú, theSender devuelve e
 ```javascript
 $().getFocus;
 ```
+## ComboBox
+#### Obtener la información actual de un ComboBox
+Actualmente no se puede obtener de manera directa el itemData de un combo, así se crea la función que lo devuelve directamente
+```javascript
+var comboData = $("CB_EST").currentData;
+```
 
 #### Rellenar una combobox con una tabla estática
 Rellena el combo con la información de la tabla estática. En el caso de tener iconos también serán añadidos.
 ```javascript
-$("COMBOBOX").comboFillWithStaticTable(<idRef de la tabla estática>);
+$("CB_EST")
+	.comboFillWithStaticTable((<idRef de la tabla estática>)
+	.insertItem(0, "Todos", "TT");
 ```
 
 #### Rellenar una combobox con una un json
