@@ -96,9 +96,6 @@
 		comboFillWithJSON: function(data){
 			var combo = this;
 			data.forEach(function(elemento){
-				alert(JSON.stringify(elemento));
-				alert(elemento.icono);
-				
 				var icono = elemento.icono;
 				var texto = elemento.texto;
 				var id = elemento.id;
