@@ -1,4 +1,6 @@
 (function (global, undefined) {
+	importClass("VImage");
+
 	/* Helpers */
 	
 	// Alias de hasOwnProperty
@@ -90,6 +92,27 @@
 				}
 			}
             return this;
+		},
+		comboFillWithJSON: function(data){
+			var combo = this;
+			data.forEach(function(elemento){
+				alert(JSON.stringify(elemento));
+				alert(elemento.icono);
+				
+				var icono = elemento.icono;
+				var texto = elemento.texto;
+				var id = elemento.id;
+				
+				var image = new VImage();
+				image.loadResource(icono);
+				
+				if (image === null) {
+					combo.addItem(texto, id);
+				} else {
+					combo.addItem(image, texto, id);
+				}				
+			});
+			return this;
 		}
 	}
 		
