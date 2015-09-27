@@ -4,7 +4,7 @@ Librería javascript para hacer más fácil el manejo de controles en los formul
 Uso:
 #### Obtener el widget del control
 ```javascript
-$("CONTROL").control();
+$("CONTROL").getWidget();
 ```
 Está función realmente devuelve lo mismo que hacer:
 ```javascript
@@ -31,4 +31,27 @@ $().getFocus;
 Rellena el combo con la información de la tabla estática. En el caso de tener iconos también serán añadidos.
 ```javascript
 $("COMBOBOX").comboFillWithStaticTable(<idRef de la tabla estática>);
+```
+
+#### Rellenar una combobox con una un json
+Rellena el combo con la información de la tabla estática. En el caso de tener iconos también serán añadidos.
+```javascript
+data = [
+{
+	id: "TT",
+	texto: "Todos",
+},
+{
+	id: "P",
+	texto: "Pendientes",
+	icono: "AkedisIncludes.dat/BOLA_ROJA"
+},
+{
+	id: "P",
+	texto: "Pagadas",
+	icono: "AkedisIncludes.dat/BOLA_VERDE"
+}
+]
+
+$("CB_EST").comboFillWithJSON(data)
 ```
