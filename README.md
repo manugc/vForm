@@ -41,7 +41,7 @@ $("CB_EST")
 	.insertItem(0, "Todos", "TT");
 ```
 
-#### Rellenar una combobox con una un json
+#### Rellenar una combobox con un json
 Rellena el combo con la información de la tabla estática. En el caso de tener iconos también serán añadidos.
 ```javascript
 data = [
