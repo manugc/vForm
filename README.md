@@ -15,10 +15,10 @@ Pero al ser una librería el widget queda almacenado dentro de la librería y pa
 #### Obtener el objeto del control
 Devuelve el VObjectInfo del control. Con ello tenemos acceso a todas las funciones de la clase
 ```javascript
-$("CONTROL").objecto();
+$("CONTROL").getObject();
 ```
 ```javascript
-$("CONTROL").objecto().idRef();
+$("CONTROL").getObject().idRef();
 ```
 
 #### Obtener el control donde está el foco
