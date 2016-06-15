@@ -1,77 +1,77 @@
 (function (global, undefined) {
 	importClass("VImage");
-
+	
 	/* Helpers */
 	
 	// Alias de hasOwnProperty
 	function hasOwnProp(a, b) {
-        return Object.prototype.hasOwnProperty.call(a, b);
-    }
+		return Object.prototype.hasOwnProperty.call(a, b);
+	}
 	
-	// Extiende el objeto a con con el objecto b
+	// Extiende el objeto a con con el objeto b
 	function extend(a, b) {
-        for (var i in b) {
-            if (hasOwnProp(b, i)) {
-                a[i] = b[i];
-            }
-        }
-
-        if (hasOwnProp(b, 'toString')) {
-            a.toString = b.toString;
-        }
-
-        if (hasOwnProp(b, 'valueOf')) {
-            a.valueOf = b.valueOf;
-        }
-
-        return a;
-    }
+		for (var i in b) {
+			if (hasOwnProp(b, i)) {
+				a[i] = b[i];
+			}
+		}
+		
+		if (hasOwnProp(b, 'toString')) {
+			a.toString = b.toString;
+		}
+		
+		if (hasOwnProp(b, 'valueOf')) {
+			a.valueOf = b.valueOf;
+		}
+		
+		return a;
+	}
 	/* Helpers */
 	
-    var $ = function (control) {		
-        if (global === this) {
-            return new $(control);
-        }
-
-        // Si se ha pasado un nombre, asignamos el widget
-        if (control != undefined) {
-            $.widget = theRoot.dataView().control(control);
+	var $ = function (control) {
+		if (global === this) {
+			return new $(control);
+		}
+		
+		// Si se ha pasado un nombre, asignamos el widget
+		if (control != undefined) {
+			$.widget = theRoot.dataView().control(control);
 			switch(theMainWindow.widgetType($.widget)){
 				case VMainWindow.WTypeComboBox:
-					// Extendemos los ComboBox
-					extend($.widget, ComboBox);
-					break;
+				// Extendemos los ComboBox
+				extend($.widget, ComboBox);
+				break;
 			}
 			return $.widget;
-        }else{
+		}else{
 			// Si no se ha pasado nada, devolvemos el objeto principal
 			this.frm = theRoot.dataView();
 			this.frmObj = theRoot.objectInfo();
 			return this;
 		}
-    };	
-
-    $.fn = $.prototype = {
-        getWidget: function () {
-            return $.widget;
-        },
-        objecto: function () {
-            return $.frmObj.subObjectInfo(19, $.widget.objectName);
-        },
-        getFocus: function () {
-            var count = $.frm.controlCount();
-            var getControl = theRoot.dataView().control;
-            for (var i = 0; i < count; i++) {
-                try {
-                    var controlFrm = getControl(i);
-                    if (("focus" in controlFrm) && controlFrm.focus) {
-                        $.control = controlFrm;
-                        return controlFrm;
-                    }
-                } catch (e) {}
-            }
-        }
-    };
+	};
+	
+	$.fn = $.prototype = {
+		getWidget: function () {
+			return $.widget;
+		},
+		getObject: function () {
+			return $.frmObj.subObjectInfo(19, $.widget.objectName);
+		},
+		getFocus: function () {
+			var count = $.frm.controlCount();
+			var getControl = theRoot.dataView().control;
+			for (var i = 0; i < count; i++) {
+				try {
+					var controlFrm = getControl(i);
+					if (("focus" in controlFrm) && controlFrm.focus) {
+						$.control = controlFrm;
+						return controlFrm;
+					}
+				} catch (e) {}
+			}
+		}
+	};
 	
 	// Extendemos los ComboBox
 	var ComboBox = {
@@ -84,14 +84,14 @@
 				var icono = theApp.staticTableItemImage(tablaEstatica, i);
 				var texto = theApp.staticTableItemName(tablaEstatica, i);
 				var id = theApp.staticTableItemId(tablaEstatica, i);
-
+				
 				if (icono === null) {
 					combo.addItem(texto, id);
 				} else {
 					combo.addItem(icono, texto, id);
 				}
 			}
-            return this;
+			return this;
 		},
 		comboFillWithJSON: function(data){
 			var combo = this;
@@ -107,11 +107,11 @@
 					combo.addItem(texto, id);
 				} else {
 					combo.addItem(image, texto, id);
-				}				
+				}
 			});
 			return this;
 		}
 	}
-		
-    global.$ = $;
+	
+	global.$ = $;
 })(this);
